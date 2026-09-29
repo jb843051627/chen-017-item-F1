@@ -68,4 +68,22 @@ public class ItemCatalogVerController extends BaseController {
     public AjaxResult rollback(Long id, String remark) {
         return toAjax(itemCatalogVerService.rollback(id, remark) != null ? 1 : 0);
     }
+
+    @Log(title = "事项目录条目版次单打住", action = "terminate")
+    @ApiOperation(value = "打住", notes = "点明这一版不再往下走，单就此打住")
+    @PostMapping("/terminate")
+    @RequiresPermissions("itemCatalogVer:terminate")
+    @ResponseBody
+    public AjaxResult terminate(Long id, String remark) {
+        return toAjax(itemCatalogVerService.terminate(id, remark) != null ? 1 : 0);
+    }
+
+    @Log(title = "事项目录条目版次单履历审计", action = "audit")
+    @ApiOperation(value = "履历审计", notes = "验一张单是不是真走到了头")
+    @GetMapping("/audit")
+    @RequiresPermissions("itemCatalogVer:audit")
+    @ResponseBody
+    public AjaxResult audit(Long id) {
+        return toAjax(itemCatalogVerService.audit(id) ? 1 : 0);
+    }
 }
